@@ -2,7 +2,7 @@
 
 A web application built with SvelteKit and Tailwind CSS to help 42 students find teammates for projects, access project descriptions, and view an improved mobile version of the "Holy Graph".
 
-![Preview 1](/readme/preview1.png)
+![Preview 1](/static/readme/preview1.png)
 
 ## Features
 
