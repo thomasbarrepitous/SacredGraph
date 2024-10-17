@@ -1,0 +1,40 @@
+{
+  "categories": [
+    {
+      "name": "Skills",
+      "tags": [
+        {"name": "Algorithm", "color": "#3498db"},
+        {"name": "Assembly", "color": "#e74c3c"},
+        {"name": "Unix", "color": "#2ecc71"},
+        {"name": "Graphics", "color": "#9b59b6"},
+        {"name": "Network", "color": "#f39c12"},
+        {"name": "WebDev", "color": "#1abc9c"},
+        {"name": "Data", "color": "#34495e"},
+        {"name": "Cyber", "color": "#e67e22"},
+        {"name": "DevOps", "color": "#16a085"},
+        {"name": "Game Dev", "color": "#d35400"},
+        {"name": "Quantum Computing", "color": "#8e44ad"}
+      ]
+    },
+    {
+      "name": "Type",
+      "tags": [
+        {"name": "Piscine", "color": "#27ae60"},
+        {"name": "Professional Experience", "color": "#2980b9"},
+        {"name": "Exam", "color": "#c0392b"},
+        {"name": "Common", "color": "#ebe2ca"}
+      ]
+    },
+    {
+        "name": "Circle",
+        "tags": [
+            {"name": "Circle 1", "color": "#27ae60"},
+            {"name": "Circle 2", "color": "#FF6464"},
+            {"name": "Circle 3", "color": "#6464ff"},
+            {"name": "Circle 4", "color": "#FFFF66"},
+            {"name": "Circle 5", "color": "#FF66FF"},
+            {"name": "Circle 6", "color": "#66FFFF"}
+        ]
+    }
+  ]
+}

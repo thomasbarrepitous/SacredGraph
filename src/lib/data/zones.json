@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "1st Circle",
+    "x": 0,
+    "y": 0,
+    "width": 2,
+    "height": 2,
+    "color": "#27ae60"
+  },
+  {
+    "id": 2,
+    "name": "2nd Circle",
+    "x": 0,
+    "y": 0,
+    "width": 4,
+    "height": 4,
+    "color": "#FF6464"
+  },
+  {
+    "id": 3,
+    "name": "3rd Circle",
+    "x": 0,
+    "y": 0,
+    "width": 6,
+    "height": 6,
+    "color": "#6464ff"
+  },
+  {
+    "id": 4,
+    "name": "4th Circle",
+    "x": 0,
+    "y": 0,
+    "width": 8,
+    "height": 8,
+    "color": "#FFFF66"
+  },
+  {
+    "id": 5,
+    "name": "5th Circle",
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "color": "#FF66FF"
+  },
+  {
+    "id": 6,
+    "name": "6th Circle",
+    "x": 0,
+    "y": 0,
+    "width": 12,
+    "height": 12,
+    "color": "#66FFFF"
+  }
+]
