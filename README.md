@@ -48,11 +48,11 @@ yarn install
 5. Create a `.env` file in the root directory and add the necessary environment variables:
 
 ```
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-VITE_42_CLIENT_ID=your_42_app_client_id
-VITE_42_CLIENT_SECRET=your_42_app_client_secret
-VITE_42_REDIRECT_URI=your_42_app_redirect_uri
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+CLIENT_ID=your_42_app_client_id
+CLIENT_SECRET=your_42_app_client_secret
+REDIRECT_URI=your_42_app_redirect_uri
 ```
 
 6. Create a `src/lib/data/paris.js` file containing the projects list. This file should include all projects with the fields defined in `src/lib/stores/projectStore.ts`. This file is not included in the repository for intellectual property reasons.

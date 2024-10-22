@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { CLIENT_ID, CLIENT_SECRET } from '$env/static/private';
 
 const TOKEN_URL = 'https://api.intra.42.fr/oauth/token';
 
@@ -18,10 +19,10 @@ export const POST: RequestHandler = async ({ cookies, fetch }) => {
             },
             body: new URLSearchParams({
                 grant_type: 'refresh_token',
-                client_id: import.meta.env.VITE_42_CLIENT_ID,
-                client_secret: import.meta.env.VITE_42_CLIENT_SECRET,
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
                 refresh_token: refreshToken,
-            }),
+            }).toString(),
         });
 
         if (!tokenResponse.ok) {

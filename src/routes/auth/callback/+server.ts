@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
 
 const TOKEN_URL = 'https://api.intra.42.fr/oauth/token';
 
@@ -7,7 +8,7 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
     const code = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 
-    // TODO: Verify state to prevent CSRF attacks
+    // TODO: Implement state verification to prevent CSRF attacks
 
     if (!code) {
         throw redirect(302, '/');
@@ -21,11 +22,11 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
             },
             body: new URLSearchParams({
                 grant_type: 'authorization_code',
-                client_id: import.meta.env.VITE_42_CLIENT_ID,
-                client_secret: import.meta.env.VITE_42_CLIENT_SECRET,
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
                 code: code,
-                redirect_uri: import.meta.env.VITE_42_REDIRECT_URI,
-            }),
+                redirect_uri: REDIRECT_URI,
+            }).toString(),
         });
 
         if (!tokenResponse.ok) {
@@ -54,20 +55,10 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
         }
 
         // Redirect to the map page after successful authentication
-        return new Response(null, {
-            status: 302,
-            headers: {
-                Location: '/map'
-            }
-        });
+        throw redirect(302, '/map');
     } catch (error) {
         console.error('Authentication error:', error);
         // Redirect to an error page or back to the login page
-        return new Response(null, {
-            status: 302,
-            headers: {
-                Location: '/?error=authentication_failed'
-            }
-        });
+        throw redirect(302, '/?error=authentication_failed');
     }
 };
