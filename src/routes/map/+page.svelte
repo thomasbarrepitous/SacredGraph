@@ -9,6 +9,7 @@
     import zonesData from '$lib/data/zones.json';
     import SearchBar from '$lib/components/SearchBar.svelte';
     import FilterBar from '$lib/components/FilterBar.svelte';
+    import { user } from '$lib/stores/userStore';
 
     let svg: SVGSVGElement;
     let windowWidth: number;
@@ -23,9 +24,18 @@
 
     let projectSubscriptions: Record<number, Subscription[]> = {};
 
+    let currentUser: User | null;
+    user.subscribe(value => currentUser = value);
+
+    let isSubscribing = false;
+
     $: if (svg && windowWidth && windowHeight) {
         updateSVGSize();
     }
+
+    $: isCurrentlySubscribed = (selectedProject && projectSubscriptions[selectedProject.id]?.some(
+        sub => sub.login === currentUser?.login
+    )) ?? false;
 
     function updateSVGSize() {
         const svgElement = select(svg);
@@ -74,6 +84,53 @@
         setTimeout(() => {
             selectedProject = null;
         }, 300);
+    }
+
+    function getUserSubscription(): Subscription | null {
+        if (!selectedProject || !currentUser) return null;
+        return projectSubscriptions[selectedProject.id]?.find(
+            sub => sub.login === currentUser.login
+        ) || null;
+    }
+
+    async function subscribeToProject() {
+        if (!selectedProject || !currentUser || isSubscribing) return;
+
+        isSubscribing = true;
+        try {
+            const userSubscription = getUserSubscription();
+            const isSubscribed = userSubscription !== null;
+
+            const response = await fetch(
+                isSubscribed 
+                    ? `/api/subscriptions?id=${userSubscription.id}`
+                    : '/api/subscriptions', 
+                {
+                    method: isSubscribed ? 'DELETE' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: isSubscribed ? undefined : JSON.stringify({
+                        login: currentUser.login,
+                        project_id: selectedProject.project_id,
+                        campus_id: 21,
+                        profile_pic: currentUser.image?.link || "",
+                    })
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Failed to ${isSubscribed ? 'unsubscribe from' : 'subscribe to'} project`);
+            }
+
+            // Refresh the subscriptions for this project
+            await fetchProjectSubscriptions(selectedProject);
+
+        } catch (error) {
+            console.error('Error managing subscription:', error);
+        } finally {
+            isSubscribing = false;
+        }
     }
 
     function handleOverlayClick(event: MouseEvent) {
@@ -318,7 +375,24 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-gray-800 px-6 py-3 flex justify-end rounded-b-lg">
+            <div class="bg-gray-800 px-6 py-3 flex justify-between rounded-b-lg">
+                <button 
+                    class={`font-bold py-2 px-4 rounded transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed
+                        ${isCurrentlySubscribed 
+                            ? 'bg-red-600 hover:bg-red-700' 
+                            : 'bg-green-600 hover:bg-green-700'
+                        } text-white`}
+                    on:click={subscribeToProject}
+                    disabled={!currentUser || isSubscribing}
+                >
+                    {#if isSubscribing}
+                        {isCurrentlySubscribed ? 'Unsubscribing...' : 'Subscribing...'}
+                    {:else if !currentUser}
+                        Login to Subscribe
+                    {:else}
+                        {isCurrentlySubscribed ? 'Unsubscribe' : 'Subscribe'}
+                    {/if}
+                </button>
                 <button 
                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
                     on:click={closeProjectDialog}
