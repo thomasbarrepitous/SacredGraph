@@ -81,7 +81,22 @@
     function closeProjectDialog() {
         dialogVisible = false;
         window.removeEventListener('keydown', handleDialogKeydown);
-        setTimeout(() => {
+        setTimeout(async () => {
+            // Refresh all subscriptions data before clearing selectedProject
+            await subscriptions.fetchSubscriptions();
+            // Reset the projectSubscriptions object
+            projectSubscriptions = {};
+            // Rebuild it with fresh data
+            $subscriptions.forEach(sub => {
+                if (!projectSubscriptions[sub.project_id]) {
+                    projectSubscriptions[sub.project_id] = [];
+                }
+                projectSubscriptions[sub.project_id].push(sub);
+            });
+            
+            // Force an update of the SVG
+            updateSVGSize();
+            
             selectedProject = null;
         }, 300);
     }

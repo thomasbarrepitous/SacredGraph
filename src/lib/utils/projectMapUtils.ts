@@ -177,6 +177,7 @@ export function updateProjects(
                 return; // No subscribers, leave empty
             }
 
+            // Calculate the total width and offset for the avatars
             const totalWidth = avatarBackgroundSize * Math.min(subs.length, 3);
             const xOffset = avatarBackgroundSize * 2.85 - totalWidth;
 
@@ -189,6 +190,7 @@ export function updateProjects(
                 .attr('ry', avatarBackgroundSize / 2)
                 .attr('fill', 'rgba(255, 255, 255, 0.2)');
 
+            // If there are less than 3 subscribers, show all avatars
             if (subs.length <= 3) {
                 subs.forEach((sub, i) => {
                     node.append('image')
