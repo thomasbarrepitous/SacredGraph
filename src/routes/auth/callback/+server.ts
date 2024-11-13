@@ -30,6 +30,7 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
         });
 
         if (!tokenResponse.ok) {
+            console.error('Token response not OK:', await tokenResponse.text());
             throw new Error('Failed to fetch token');
         }
 
@@ -54,11 +55,23 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
             });
         }
 
-        // Redirect to the map page after successful authentication
-        throw redirect(302, '/map');
+        // Return the redirect response instead of throwing it
+        return new Response(null, {
+            status: 302,
+            headers: {
+                Location: '/map'
+            }
+        });
+        
     } catch (error) {
-        console.error('Authentication error:', error);
-        // Redirect to an error page or back to the login page
-        throw redirect(302, '/?error=authentication_failed');
+        // Log the actual error for debugging
+        console.error('Authentication error:', error instanceof Error ? error.message : error);
+        // Only redirect to error page for actual errors
+        return new Response(null, {
+            status: 302,
+            headers: {
+                Location: '/?error=authentication_failed'
+            }
+        });
     }
 };

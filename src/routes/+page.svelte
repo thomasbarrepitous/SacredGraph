@@ -28,7 +28,6 @@
 <main class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 text-white flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 overflow-hidden">
     {#if showContent}
         <div class="max-w-5xl w-full space-y-16 text-center relative" in:fade={{ duration: 1000 }}>
-            <div class="absolute top-0 left-0 w-full h-full bg-[url('/sacred-geometry.svg')] opacity-10 animate-spin-slow"></div>
             <h1 class="text-6xl sm:text-7xl font-extrabold tracking-tight" in:fly={{ y: 50, duration: 1000, delay: 300 }}>
                 Sacred Graph
             </h1>
